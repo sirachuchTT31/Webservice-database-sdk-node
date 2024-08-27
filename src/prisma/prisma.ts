@@ -1,8 +1,13 @@
-import { PrismaClient } from "@prisma/client";
-export interface PrismaSDKBase {
-    prisma: PrismaClient;
+import { PrismaClient } from '@prisma/client'
+
+const prismaClientSingleton = () => {
+  return new PrismaClient()
 }
 
-declare const globalPrismaSDK: PrismaSDKBase;
+declare const globalThis: {
+  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
+} & typeof global;
 
-export const PrismaSDK = globalPrismaSDK.prisma || new PrismaClient();
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
+
+export default prisma
