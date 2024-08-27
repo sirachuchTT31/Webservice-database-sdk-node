@@ -1,2 +1,2 @@
 
-exports.Prisma = require('@prisma/client')
+exports[''] = require('@prisma/client')
