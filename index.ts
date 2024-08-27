@@ -1,7 +1,4 @@
 
+import { PrismaSDK } from './src/prisma/prisma';
 
-// export *  from './src/prisma/prisma';
-
-import { PrismaClient } from "@prisma/client";
-
-export default PrismaClient;
+export default PrismaSDK;
