@@ -1,0 +1,1 @@
+export * as PrismaSDK from './src/prisma/prisma';
