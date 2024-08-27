@@ -4,4 +4,4 @@
 
 import { PrismaClient } from "@prisma/client";
 
-export let PrismaSDK = PrismaClient;
+export default PrismaClient;
