@@ -1,1 +1,1 @@
-export * as PrismaSDK from './src/prisma/prisma';
+export * from './src/prisma/prisma';
