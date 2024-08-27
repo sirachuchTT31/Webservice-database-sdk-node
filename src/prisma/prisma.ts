@@ -5,6 +5,4 @@ export interface PrismaSDKBase {
 
 declare const globalPrismaSDK: PrismaSDKBase;
 
-const PrismaSDK = globalPrismaSDK.prisma || new PrismaClient();
-
-export default PrismaSDK
+export const PrismaSDK = globalPrismaSDK.prisma || new PrismaClient();
