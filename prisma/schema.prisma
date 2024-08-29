@@ -14,9 +14,40 @@ datasource db {
 }
 
 model User {
-  id   Int    @default(autoincrement())
-  name String @db.VarChar(255)
+  id        Int       @default(autoincrement())
+  name      String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  createBy  Int?
+  updatedAt DateTime? @updatedAt
+  updatedBy Int?
 
   @@id([id])
   @@map("user")
+}
+
+model TransactionPayment {
+  id                Int                @default(autoincrement())
+  transactionId     String             @db.VarChar(255)
+  PaymentCheckPoint PaymentCheckPoint?
+  createdAt         DateTime           @default(now())
+  createBy          Int?
+  updatedAt         DateTime?          @updatedAt
+  updatedBy         Int?
+
+  @@id([id])
+  @@map("transaction_payment")
+}
+
+model PaymentCheckPoint {
+  id                   Int                @default(autoincrement())
+  price                Float
+  transactionPaymentId Int                @unique
+  TransactionPayment   TransactionPayment @relation(fields: [transactionPaymentId], references: [id])
+  createdAt            DateTime           @default(now())
+  createBy             Int?
+  updatedAt            DateTime?          @updatedAt
+  updatedBy            Int?
+
+  @@id([id])
+  @@map("payment_check_point")
 }
