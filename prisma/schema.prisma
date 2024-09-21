@@ -9,45 +9,72 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int       @default(autoincrement())
-  name      String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  createBy  Int?
-  updatedAt DateTime? @updatedAt
-  updatedBy Int?
+  id         Int          @default(autoincrement())
+  user_id    String       @default(uuid())
+  email      String       @db.VarChar(255)
+  pasword    String       @db.VarChar(255)
+  firstname  String       @db.VarChar(255)
+  lastname   String       @db.VarChar(255)
+  telephone  String       @db.VarChar(50)
+  created_at DateTime     @default(now())
+  created_by Int?
+  updated_at DateTime?    @updatedAt
+  updated_by Int?
+  UserOnRole UserOnRole[]
 
   @@id([id])
   @@map("user")
 }
 
-model TransactionPayment {
-  id                Int                @default(autoincrement())
-  transactionId     String             @db.VarChar(255)
-  PaymentCheckPoint PaymentCheckPoint?
-  createdAt         DateTime           @default(now())
-  createBy          Int?
-  updatedAt         DateTime?          @updatedAt
-  updatedBy         Int?
+model UserOnRole {
+  id      Int   @default(autoincrement())
+  user_id Int?
+  role_id Int?
+  User    User? @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  Role    Role? @relation(references: [id], fields: [role_id], onDelete: Cascade)
 
   @@id([id])
-  @@map("transaction_payment")
+  @@map("user_on_role")
 }
 
-model PaymentCheckPoint {
-  id                   Int                @default(autoincrement())
-  price                Float
-  transactionPaymentId Int                @unique
-  TransactionPayment   TransactionPayment @relation(fields: [transactionPaymentId], references: [id])
-  createdAt            DateTime           @default(now())
-  createBy             Int?
-  updatedAt            DateTime?          @updatedAt
-  updatedBy            Int?
+model Role {
+  id            Int          @default(autoincrement())
+  name          String       @db.VarChar(255)
+  role_shortkey String       @db.VarChar(10)
+  UserOnRole    UserOnRole[]
 
   @@id([id])
-  @@map("payment_check_point")
+  @@map("role")
 }
+
+// model TransactionPayment {
+//   id                Int                @default(autoincrement())
+//   transactionId     String             @db.VarChar(255)
+//   PaymentCheckPoint PaymentCheckPoint?
+//   createdAt         DateTime           @default(now())
+//   createBy          Int?
+//   updatedAt         DateTime?          @updatedAt
+//   updatedBy         Int?
+
+//   @@id([id])
+//   @@map("transaction_payment")
+// }
+
+// model PaymentCheckPoint {
+//   id                   Int                @default(autoincrement())
+//   price                Float
+//   transactionPaymentId Int                @unique
+//   TransactionPayment   TransactionPayment @relation(fields: [transactionPaymentId], references: [id])
+//   createdAt            DateTime           @default(now())
+//   createBy             Int?
+//   updatedAt            DateTime?          @updatedAt
+//   updatedBy            Int?
+
+//   @@id([id])
+//   @@map("payment_check_point")
+// }
