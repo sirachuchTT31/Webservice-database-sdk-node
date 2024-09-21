@@ -17,10 +17,10 @@ model User {
   id         Int          @default(autoincrement())
   user_id    String       @default(uuid())
   email      String       @db.VarChar(255)
-  pasword    String       @db.VarChar(255)
-  firstname  String       @db.VarChar(255)
-  lastname   String       @db.VarChar(255)
-  telephone  String       @db.VarChar(50)
+  password   String       @db.VarChar(255)
+  firstname  String?      @db.VarChar(255)
+  lastname   String?      @db.VarChar(255)
+  telephone  String?      @db.VarChar(50)
   created_at DateTime     @default(now())
   created_by Int?
   updated_at DateTime?    @updatedAt
