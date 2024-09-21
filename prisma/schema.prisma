@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id         Int          @default(autoincrement())
   user_id    String       @default(uuid())
   email      String       @db.VarChar(255)
@@ -28,14 +28,14 @@ model User {
   UserOnRole UserOnRole[]
 
   @@id([id])
-  @@map("user")
+  @@map("users")
 }
 
 model UserOnRole {
   id      Int   @default(autoincrement())
   user_id Int?
   role_id Int?
-  User    User? @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  Users    Users? @relation(references: [id], fields: [user_id], onDelete: Cascade)
   Role    Role? @relation(references: [id], fields: [role_id], onDelete: Cascade)
 
   @@id([id])
