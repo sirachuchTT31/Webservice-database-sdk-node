@@ -32,11 +32,11 @@ model Users {
 }
 
 model UserOnRole {
-  id      Int   @default(autoincrement())
+  id      Int    @default(autoincrement())
   user_id Int?
   role_id Int?
-  Users    Users? @relation(references: [id], fields: [user_id], onDelete: Cascade)
-  Role    Role? @relation(references: [id], fields: [role_id], onDelete: Cascade)
+  Users   Users? @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  Role    Role?  @relation(references: [id], fields: [role_id], onDelete: Cascade)
 
   @@id([id])
   @@map("user_on_role")
@@ -44,12 +44,69 @@ model UserOnRole {
 
 model Role {
   id            Int          @default(autoincrement())
-  name          String       @db.VarChar(255)
-  role_shortkey String       @db.VarChar(10)
+  name          String       @unique @db.VarChar(255)
+  role_shortkey String       @unique @db.VarChar(10)
   UserOnRole    UserOnRole[]
 
   @@id([id])
   @@map("role")
+}
+
+model Products {
+  id                Int         @default(autoincrement())
+  product_name      String      @db.Text
+  product_per_price Float
+  created_at        DateTime    @default(now())
+  created_by        Int?
+  updated_at        DateTime?   @updatedAt
+  updated_by        Int?
+  categories_id     Int?
+  Categories        Categories? @relation(fields: [categories_id], references: [id], onDelete: SetNull)
+  Brand             Brand?      @relation(fields: [brand_id], references: [id])
+  brand_id          Int?
+  Stock             Stock?
+
+  @@id([id])
+  @@map("products")
+}
+
+model Stock {
+  id         Int       @default(autoincrement())
+  brand_name String    @db.VarChar(255)
+  product_id Int?      @unique
+  Products   Products? @relation(fields: [product_id], references: [id], onDelete: SetNull)
+  created_at DateTime  @default(now())
+  created_by Int?
+  updated_at DateTime? @updatedAt
+  updated_by Int?
+
+  @@id([id])
+  @@map("stock")
+}
+
+model Brand {
+  id         Int        @default(autoincrement())
+  brand_name String     @db.VarChar(255)
+  Products   Products[]
+
+  @@id([id])
+  @@map("brand")
+}
+
+model ProductsUnit {
+  id        Int    @default(autoincrement())
+  unit_name String @db.VarChar(255)
+
+  @@id([id])
+  @@map("products_unit")
+}
+
+model Categories {
+  id              Int        @default(autoincrement())
+  categories_name String     @db.Text
+  Products        Products[]
+
+  @@id([id])
 }
 
 // model TransactionPayment {

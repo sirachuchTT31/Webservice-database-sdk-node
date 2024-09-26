@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:gen": "prisma generate"
   },
+  "prisma": {
+    "seed": "node prisma/seed/seed.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sirachuchTT31/Webservice-database-sdk-node.git"
