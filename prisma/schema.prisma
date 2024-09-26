@@ -71,14 +71,14 @@ model Products {
 }
 
 model Stock {
-  id         Int       @default(autoincrement())
-  brand_name String    @db.VarChar(255)
-  product_id Int?      @unique
-  Products   Products? @relation(fields: [product_id], references: [id], onDelete: SetNull)
-  created_at DateTime  @default(now())
-  created_by Int?
-  updated_at DateTime? @updatedAt
-  updated_by Int?
+  id            Int       @default(autoincrement())
+  stock_balance Float?
+  product_id    Int?      @unique
+  Products      Products? @relation(fields: [product_id], references: [id], onDelete: SetNull)
+  created_at    DateTime  @default(now())
+  created_by    Int?
+  updated_at    DateTime? @updatedAt
+  updated_by    Int?
 
   @@id([id])
   @@map("stock")
