@@ -14,18 +14,19 @@ datasource db {
 }
 
 model Users {
-  id         Int          @default(autoincrement())
-  user_id    String       @default(uuid())
-  email      String       @db.VarChar(255)
-  password   String       @db.VarChar(255)
-  firstname  String?      @db.VarChar(255)
-  lastname   String?      @db.VarChar(255)
-  telephone  String?      @db.VarChar(50)
-  created_at DateTime     @default(now())
-  created_by Int?
-  updated_at DateTime?    @updatedAt
-  updated_by Int?
-  UserOnRole UserOnRole[]
+  id          Int          @default(autoincrement())
+  user_id     String       @default(uuid())
+  email       String       @db.VarChar(255)
+  password    String       @db.VarChar(255)
+  firstname   String?      @db.VarChar(255)
+  lastname    String?      @db.VarChar(255)
+  telephone   String?      @db.VarChar(50)
+  created_at  DateTime     @default(now())
+  created_by  Int?
+  updated_at  DateTime?    @updatedAt
+  updated_by  Int?
+  UserOnRole  UserOnRole[]
+  ProductCart ProductCart?
 
   @@id([id])
   @@map("users")
@@ -68,6 +69,21 @@ model Products {
 
   @@id([id])
   @@map("products")
+}
+
+model ProductCart {
+  id           Int       @default(autoincrement())
+  product_list Json?
+  user_id      Int?      @unique
+  created_at   DateTime  @default(now())
+  created_by   Int?
+  updated_at   DateTime? @updatedAt
+  updated_by   Int?
+
+  User Users? @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@id([id])
+  @@map("products_cart")
 }
 
 model Stock {
